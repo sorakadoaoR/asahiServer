@@ -1,15 +1,14 @@
-package com.sorakadoao.asahisocks.config;
+package com.sorakadoao.asahiServer.config;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.sorakadoao.asahisocks.Main;
-import com.sorakadoao.asahisocks.config.JsonClass.JsonServerConfig;
-import com.sorakadoao.asahisocks.config.JsonClass.JsonUserInfo;
+import com.sorakadoao.asahiServer.Main;
+import com.sorakadoao.asahiServer.config.JsonClass.JsonServerConfig;
+import com.sorakadoao.asahiServer.config.JsonClass.JsonUserInfo;
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.zz.gmhelper.BCECUtil;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Config {

@@ -1,16 +1,9 @@
-package com.sorakadoao.asahisocks;
+package com.sorakadoao.asahiServer;
 
-import com.sorakadoao.asahisocks.config.Config;
-import com.sorakadoao.asahisocks.config.UserInfo;
-import org.bouncycastle.crypto.params.ECPublicKeyParameters;
+import com.sorakadoao.asahiServer.config.Config;
+import com.sorakadoao.asahiServer.config.UserInfo;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
-import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
-import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
-import org.zz.gmhelper.BCECUtil;
-import org.zz.gmhelper.SM2Util;
-import org.zz.gmhelper.SM4Util;
 
-import java.security.KeyPair;
 import java.util.HashMap;
 
 

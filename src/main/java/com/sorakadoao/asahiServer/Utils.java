@@ -1,28 +1,14 @@
-package com.sorakadoao.asahisocks;
+package com.sorakadoao.asahiServer;
 
-import org.bouncycastle.asn1.x500.X500Name;
-import org.bouncycastle.asn1.x500.X500NameBuilder;
-import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
-import org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
-import org.bouncycastle.openssl.PEMWriter;
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
-import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemReader;
 import org.zz.gmhelper.BCECUtil;
-import org.zz.gmhelper.SM2Util;
-import org.zz.gmhelper.cert.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.security.*;
-import java.security.cert.X509Certificate;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 public class Utils {
@@ -81,24 +67,20 @@ public class Utils {
         return stringBuilder.toString();
     }
 
-    public static void readByteFromInput(InputStream inputStream, byte[] bytes,int length) throws TimeoutException {
-        try{
-            int byteCount = 0;
-            while(true){
-                int nowByte = 0;
-                nowByte = inputStream.read();
-                bytes[byteCount] = (byte)nowByte;
-                byteCount++;
-                if(byteCount>length-1) break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void readByteFromInput(InputStream inputStream, byte[] bytes,int length) throws TimeoutException,IOException{
+        int byteCount = 0;
+        while(true){
+            int nowByte = 0;
+            nowByte = inputStream.read();
+            bytes[byteCount] = (byte)nowByte;
+            byteCount++;
+            if(byteCount>length-1) break;
         }
     }
 
 
 
-    public static int readInt(InputStream inputStream) throws TimeoutException{
+    public static int readInt(InputStream inputStream) throws TimeoutException,IOException{
         int ans = 0;
         byte[] bs = new byte[4];
         readByteFromInput(inputStream,bs,4);
@@ -108,6 +90,14 @@ public class Utils {
         }
         return ans;
     }
+
+    public static int read2byte(InputStream inputStream) throws TimeoutException,IOException{
+        return (inputStream.read()<<8) + inputStream.read();
+    }
+    public static int convertByteToInt(byte[] b,int i){
+        return (b[i]<<24)+(b[i+1]<<8)+(b[i+2]<<16)+(b[i+3]);
+    }
+
     public void writeInt(OutputStream outputStream,int i) {
         try {
             outputStream.write(i>>24);
@@ -117,5 +107,11 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static byte[] generateRandomBytes(int count, Random random){
+        byte[] ans = new byte[count];
+        random.nextBytes(ans);
+        return ans;
     }
 }

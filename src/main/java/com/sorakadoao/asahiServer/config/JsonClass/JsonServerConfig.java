@@ -1,4 +1,4 @@
-package com.sorakadoao.asahisocks.config.JsonClass;
+package com.sorakadoao.asahiServer.config.JsonClass;
 
 public class JsonServerConfig {
     public int port;

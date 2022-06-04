@@ -1,7 +1,7 @@
-package com.sorakadoao.asahisocks.config;
+package com.sorakadoao.asahiServer.config;
 
-import com.sorakadoao.asahisocks.Utils;
-import com.sorakadoao.asahisocks.config.JsonClass.JsonUserInfo;
+import com.sorakadoao.asahiServer.Utils;
+import com.sorakadoao.asahiServer.config.JsonClass.JsonUserInfo;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.zz.gmhelper.BCECUtil;

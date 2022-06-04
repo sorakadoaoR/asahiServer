@@ -1,8 +1,7 @@
-package com.sorakadoao.asahisocks;
+package com.sorakadoao.asahiServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashSet;
 
 public class Server implements Runnable {

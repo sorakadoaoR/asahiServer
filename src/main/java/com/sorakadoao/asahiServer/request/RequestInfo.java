@@ -1,4 +1,4 @@
-package com.sorakadoao.asahiServer.requese;
+package com.sorakadoao.asahiServer.request;
 
 import com.sorakadoao.asahiServer.ConnectionHandler;
 import com.sorakadoao.asahiServer.Utils;

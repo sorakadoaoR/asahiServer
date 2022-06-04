@@ -1,6 +1,4 @@
-package com.sorakadoao.asahiServer.requese;
-
-import com.sorakadoao.asahiServer.ConnectionHandler;
+package com.sorakadoao.asahiServer.request;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;

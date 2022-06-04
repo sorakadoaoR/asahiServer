@@ -1,9 +1,6 @@
-package com.sorakadoao.asahiServer.requese;
+package com.sorakadoao.asahiServer.request;
 
-import com.sorakadoao.asahiServer.ConnectionHandler;
 import com.sorakadoao.asahiServer.RemoteSocket;
-import com.sorakadoao.asahiServer.ResponsePool;
-import com.sorakadoao.asahiServer.Utils;
 import com.sorakadoao.asahiServer.response.ConnectResponse;
 
 import java.io.ByteArrayInputStream;

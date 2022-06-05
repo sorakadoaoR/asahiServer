@@ -19,7 +19,8 @@ public abstract class Request {
         if(!requestInfo.isDataEnded){
 
             if(incompleteRequest ==null) {
-                incompleteRequestMap.put(requestInfo.requestId, new IncompleteRequest(requestInfo, decryptedData));
+                incompleteRequest = new IncompleteRequest(requestInfo, decryptedData);
+                incompleteRequestMap.put(requestInfo.requestId, incompleteRequest);
             }else{
                 incompleteRequest.append(decryptedData);
             }

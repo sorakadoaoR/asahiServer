@@ -5,6 +5,7 @@ import com.sorakadoao.asahiServer.request.Request;
 import com.sorakadoao.asahiServer.request.RequestInfo;
 import com.sorakadoao.asahiServer.response.Response;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.zz.gmhelper.SM2Util;
 import org.zz.gmhelper.SM4Util;
 
@@ -154,7 +155,8 @@ public class ConnectionHandler implements Runnable{
         try {
             output.write(data);
         } catch (IOException e) {
-            e.printStackTrace();
+            closeConnection();
+            return;
         }
     }
     public void closeConnection(){
@@ -171,6 +173,7 @@ public class ConnectionHandler implements Runnable{
     }
 
     public byte[] generateRubbish(int encryptedDataLength){
+        //TODO a batter rubbish generator should be made
         return  Utils.generateRandomBytes(random.nextInt(10,200),random);
     }
 

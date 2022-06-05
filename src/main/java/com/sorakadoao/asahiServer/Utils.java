@@ -94,6 +94,12 @@ public class Utils {
     public static int read2byte(InputStream inputStream) throws TimeoutException,IOException{
         return (inputStream.read()<<8) + inputStream.read();
     }
+
+    public static void write2ByteInt(OutputStream outputStream, int i)throws IOException{
+        outputStream.write((i&0xff00)>>8);
+        outputStream.write(i&0xff);
+    }
+
     public static int convertByteToInt(byte[] b,int i){
         return (b[i]<<24)+(b[i+1]<<8)+(b[i+2]<<16)+(b[i+3]);
     }

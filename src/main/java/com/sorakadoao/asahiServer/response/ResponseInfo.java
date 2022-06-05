@@ -11,6 +11,8 @@ import java.util.concurrent.TimeoutException;
 public class ResponseInfo {
     public byte requestType;
     public int requestId;
+    //TODO change this
+    public boolean isDataEnded = true;
     ConnectionHandler connectionHandler;
 
     public ResponseInfo(int requestId,Response response, ConnectionHandler connectionHandler){
@@ -22,14 +24,19 @@ public class ResponseInfo {
     public byte[] buildResponseHeader(byte[] encryptedData,int rubbishLength){
         //
         //16-byte response header
-        //4:requestId 4:EncryptedDataLength 1:requestType 2:rubbishLength 4:0000
+        //4:requestId 4:EncryptedDataLength 1:requestType 1:isDataEnded 2:rubbishLength 4:RSV
         //
         MemoryStream memoryStream = new MemoryStream(16);
         memoryStream.writeInt(requestId);
         memoryStream.writeInt(encryptedData.length);
-        memoryStream.write(requestId);
-        memoryStream.writeInt(rubbishLength);
-        memoryStream.writeInt(0);
-        return memoryStream.getNativeByte();
+        memoryStream.write(requestType);
+        memoryStream.write(isDataEnded?1:0);
+        try {
+            Utils.write2ByteInt(memoryStream,rubbishLength);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return memoryStream.toByteArray();
     }
 }

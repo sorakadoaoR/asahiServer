@@ -20,13 +20,14 @@ public class RemoteSocket implements Runnable{
     boolean ioErrorOccurred = false;
     ConnectionHandler connectionHandler;
     public RemoteSocket(int requestId,ConnectionHandler client,InetAddress address,int port){
-        System.out.println("User "+client.user.name+" connected to "+address.getHostAddress());
         this.requestId = requestId;
         this.connectionHandler = client;
         try {
             socket = new Socket(address,port);
             input = socket.getInputStream();
             output = socket.getOutputStream();
+            ConnectResponse response = new ConnectResponse(requestId,client, (byte) 0x0);
+            connectionHandler.addToDataPool(response);
         } catch (IOException e) {
             ConnectResponse response = new ConnectResponse(requestId,client, (byte) 0x3);
             connectionHandler.addToDataPool(response);
@@ -41,7 +42,6 @@ public class RemoteSocket implements Runnable{
                 byte[] data = input.readNBytes(4096);
                 if(data.length==0) {
                     socket.close();
-                    System.out.println("Remote server closed connection");
                     return;
                 }
                 TcpResponse tcpResponse = new TcpResponse(requestId,connectionHandler,data);

@@ -47,10 +47,10 @@ public class ConnectRequest extends Request implements Runnable{
             };
             RemoteSocket remoteSocket = new RemoteSocket(requestInfo.requestId,requestInfo.connectionHandler,remoteAddress,port);
             requestInfo.connectionHandler.remoteSockets.put(requestId,remoteSocket);
+            remoteSocket.run();
         } catch (UnknownHostException e) {
             ConnectResponse response = new ConnectResponse(requestInfo.requestId,requestInfo.connectionHandler, (byte) 0x4);
             requestInfo.connectionHandler.addToDataPool(response);
-            e.printStackTrace();
         }
     }
 

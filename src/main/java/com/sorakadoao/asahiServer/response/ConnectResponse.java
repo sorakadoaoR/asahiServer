@@ -19,7 +19,7 @@ public class ConnectResponse extends Response{
         return 0x1;
     }
     //decrypted connectResponsePacket:
-    //4:requestId 4:clientConnectionId 1:packetType,0x1 1:status
+    //1:status
     @Override
     public byte[] build() {
         return new byte[]{status};

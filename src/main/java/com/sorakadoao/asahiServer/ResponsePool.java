@@ -26,8 +26,10 @@ public class ResponsePool implements Runnable {
     public void run() {
         while(true){
             //TODO detailed packet sending rules
-            for(Response response:responseList){
-                connectionHandler.sendData(response.buildEncryptedPacket());
+            synchronized (responseList){
+                for(Response response:responseList){
+                    connectionHandler.sendData(response.buildEncryptedPacket());
+                }
             }
 
             try {
@@ -39,6 +41,8 @@ public class ResponsePool implements Runnable {
     }
 
     public void queueResponse(Response response){
-        responseList.add(response);
+        synchronized (responseList){
+            responseList.add(response);
+        }
     }
 }

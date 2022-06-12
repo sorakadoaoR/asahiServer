@@ -36,7 +36,7 @@ public class ConnectRequest extends Request implements Runnable{
         }
     }
     public void run(){
-        InetAddress remoteAddress;
+        InetAddress remoteAddress = null;
         try {
             remoteAddress = switch (addressType) {//ipv4
                 case 1, 4 ->//ipv6
@@ -45,11 +45,11 @@ public class ConnectRequest extends Request implements Runnable{
                         InetAddress.getByName(new String(address));
                 default -> throw new UnknownHostException();
             };
-            RemoteSocket remoteSocket = new RemoteSocket(requestInfo.requestId,requestInfo.connectionHandler,remoteAddress,port);
+            RemoteSocket remoteSocket = new RemoteSocket(requestInfo.clientConnectionId,requestInfo.connectionHandler,remoteAddress,port);
             requestInfo.connectionHandler.remoteSockets.put(requestId,remoteSocket);
             remoteSocket.run();
         } catch (UnknownHostException e) {
-            ConnectResponse response = new ConnectResponse(requestInfo.requestId,requestInfo.connectionHandler, (byte) 0x4);
+            ConnectResponse response = new ConnectResponse(requestInfo.clientConnectionId,requestInfo.connectionHandler, (byte) 0x4,null,port);
             requestInfo.connectionHandler.addToDataPool(response);
         }
     }

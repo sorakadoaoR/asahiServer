@@ -28,7 +28,7 @@ public class ConnectionHandler implements Runnable{
     long lastSeen;
     Random random;
     MemoryStream memoryStream = new MemoryStream(1024);
-    private ResponsePool responsePool;
+    public ResponsePool responsePool;
     public HashMap<Integer,RemoteSocket> remoteSockets = new HashMap<>(); //key: requestId
     public ConnectionHandler(Socket client){
         random = new Random();
@@ -131,16 +131,16 @@ public class ConnectionHandler implements Runnable{
         //start communication, listen to client information
         try{
             while(true){
-                //read 16 bytes requestHeader
-                byte[] encryptedHeader = input.readNBytes(16);
-                if(encryptedHeader.length!=16){
+                //read 32 bytes requestHeader
+                byte[] encryptedHeader = input.readNBytes(32);
+                if(encryptedHeader.length!=32){
                     System.out.println("Client Stream Closed.");
                     return;
                 }
                 byte[] decryptedHeader = SM4Util.decrypt_ECB_Padding(sm4key,encryptedHeader);
                 RequestInfo requestInfo = new RequestInfo(decryptedHeader,this);
-
-                byte[] decryptedData = SM4Util.decrypt_ECB_Padding(sm4key,input.readNBytes(requestInfo.encryptedDataLength));
+                byte[] a = input.readNBytes(requestInfo.encryptedDataLength);
+                byte[] decryptedData = SM4Util.decrypt_ECB_Padding(sm4key,a);
                 input.skipNBytes(requestInfo.rubbishLength);
                 Request request = Request.analyzer(requestInfo,decryptedData);
                 request.resolve();

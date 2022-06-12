@@ -16,20 +16,20 @@ public class RemoteSocket implements Runnable{
     InputStream input;
     OutputStream output;
 
-    int requestId;
+    int clientConnectionHandlerId;
     boolean ioErrorOccurred = false;
     ConnectionHandler connectionHandler;
-    public RemoteSocket(int requestId,ConnectionHandler client,InetAddress address,int port){
-        this.requestId = requestId;
+    public RemoteSocket(int clientConnectionHandlerId,ConnectionHandler client,InetAddress address,int port){
+        this.clientConnectionHandlerId = clientConnectionHandlerId;
         this.connectionHandler = client;
         try {
             socket = new Socket(address,port);
             input = socket.getInputStream();
             output = socket.getOutputStream();
-            ConnectResponse response = new ConnectResponse(requestId,client, (byte) 0x0);
+            ConnectResponse response = new ConnectResponse(clientConnectionHandlerId,client, (byte) 0x0, socket.getInetAddress(),port);
             connectionHandler.addToDataPool(response);
         } catch (IOException e) {
-            ConnectResponse response = new ConnectResponse(requestId,client, (byte) 0x3);
+            ConnectResponse response = new ConnectResponse(clientConnectionHandlerId,client, (byte) 0x3, socket.getInetAddress(),port);
             connectionHandler.addToDataPool(response);
             return;
         }
@@ -39,12 +39,13 @@ public class RemoteSocket implements Runnable{
     public void run() {
         try {
             while(true){
-                byte[] data = input.readNBytes(4096);
+                byte[] data = input.readAllBytes();
                 if(data.length==0) {
                     socket.close();
                     return;
                 }
-                TcpResponse tcpResponse = new TcpResponse(requestId,connectionHandler,data);
+                //System.out.println("RECEIVED FROM SERVER:" + data.length);
+                TcpResponse tcpResponse = new TcpResponse(clientConnectionHandlerId,connectionHandler,data);
                 connectionHandler.addToDataPool(tcpResponse);
             }
         } catch (IOException e) {
@@ -55,6 +56,7 @@ public class RemoteSocket implements Runnable{
     public void sendDataToRemoteServer(byte[] data){  //send data to real server
         try {
             output.write(data);
+            //System.out.println("SEND TO SERVER:" + data.length);
         } catch (IOException e) {
             ioErrorOccurred = true;
             e.printStackTrace();

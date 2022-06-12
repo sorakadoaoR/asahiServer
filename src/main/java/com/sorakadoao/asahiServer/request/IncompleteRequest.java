@@ -17,7 +17,7 @@ public class IncompleteRequest extends Request{
     public byte[] flush(){
         int length = 0;
         for(byte[] bytes:incompleteDecryptedData){
-            length = bytes.length;
+            length += bytes.length;
         }
         byte[] ans = new byte[length];
         int nowIndex = 0;

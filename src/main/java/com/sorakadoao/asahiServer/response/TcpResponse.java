@@ -2,11 +2,13 @@ package com.sorakadoao.asahiServer.response;
 
 import com.sorakadoao.asahiServer.ConnectionHandler;
 import com.sorakadoao.asahiServer.MemoryStream;
+import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
+import org.zz.gmhelper.SM3Util;
 
 public class TcpResponse extends Response {
     byte[] data;
-    public TcpResponse(int requestId, ConnectionHandler connectionHandler,byte[] data) {
-        super(requestId,connectionHandler);
+    public TcpResponse(int clientConnectionHandlerId, ConnectionHandler connectionHandler,byte[] data) {
+        super(clientConnectionHandlerId,connectionHandler);
         this.data = data;
     }
 
